@@ -41,23 +41,45 @@ let spotifyThis = (song) => {
 
     let spotify = new Spotify(keys.spotify);
 
-    spotify.search({ type: 'track', query: song }, function(err, data) {
-        if (err) {
-            return console.log('Error occured' + err)
-        }
-        console.log("\nResults:\n")
-        console.log('--------------\n')
-
-        data.tracks.items.slice(-5).forEach(result => {
-
-            console.log("Artist: " + result.artists[0].name)
-            console.log("Song: " + result.name)
-            console.log("Preview: >>> " + result.preview_url + " <<<")
-            console.log("Album: " + result.album.name + '\n')
+    if (input) {
+        spotify.search({ type: 'track', query: song }, function(err, data) {
+            if (err) {
+                return console.log('Error occured' + err)
+            }
+            console.log("\nResults:\n")
             console.log('--------------\n')
-
+    
+            data.tracks.items.slice(-5).forEach(result => {
+    
+                console.log("Artist: " + result.artists[0].name)
+                console.log("Song: " + result.name)
+                console.log("Preview: >>> " + result.preview_url + " <<<")
+                console.log("Album: " + result.album.name + '\n')
+                console.log('--------------\n')
+    
+            })
         })
-    })
+        
+    } else {
+
+        spotify.search({ type: 'track', query: "The Sign" }, function(err, data) {
+            if (err) {
+                return console.log('Error occured' + err)
+            }
+            console.log("\nNothing? Maybe you need a sign? :\n")
+            console.log('--------------\n')
+    
+            let aceOfBase = data.tracks.items[0]
+    
+                console.log("Artist: " + aceOfBase.artists[0].name)
+                console.log("Song: " + aceOfBase.name)
+                console.log("Preview: >>> " + aceOfBase.preview_url + " <<<")
+                console.log("Album: " + aceOfBase.album.name + '\n')
+                console.log('--------------\n')
+    
+            
+        })
+    }
 }
 
 
@@ -86,7 +108,7 @@ let movieThis = (movie) => {
             }
         )
 
-    } else if (!input) {
+    } else {
         axios.get(empty).then( 
             function(response) {
                 console.log("\nCan't think of anything? Try this movie: ")
@@ -100,7 +122,7 @@ let movieThis = (movie) => {
                 console.log("Actors: " + response.data.Actors + '\n')
                 console.log("It's on Netflix!")
                 console.log('--------------\n')
-                
+
             }
         )
     }
