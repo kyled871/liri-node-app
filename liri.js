@@ -16,7 +16,7 @@ let input = process.argv.slice(3).join(" ");
 // BandsInTown API -----------------
 let concertThis = (artist) => {
     
-    var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
+    let queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
     
 axios.get(queryUrl).then( 
     function(response) {
@@ -58,7 +58,30 @@ let spotifyThis = (song) => {
 
         })
     })
+}
 
+
+
+// OMDB API ---------------------
+let movieThis = (movie) => {
+    let apiKey = (keys.omdb)
+    let queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy"
+
+    axios.get(queryUrl).then( 
+        function(response) {
+            
+            console.log("\nTitle: " + response.data.Title)
+            console.log("Year: " + response.data.Year)
+            console.log("IMDB: " + response.data.Ratings[0].Value)
+            console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value)
+            console.log("Country: " + response.data.Country)
+            console.log("Language: " + response.data.Language)
+            console.log("Plot: " + response.data.Plot)
+            console.log("Actors: " + response.data.Actors + '\n')
+
+
+        }
+    )
 }
     
     
@@ -72,5 +95,10 @@ let spotifyThis = (song) => {
         case 'spotify-this-song':
             spotifyThis(input);
             break;
+
+        case 'movie-this':
+            movieThis(input);
+            break;
+            
     }
     
