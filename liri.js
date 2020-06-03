@@ -26,9 +26,9 @@ axios.get(queryUrl).then(
 
         // only showing 5 concerts at a time so your command line isnt flooded
         response.data.slice(-5).forEach(concert => {
-            console.log(concert.venue.name + '\n')
-            console.log(concert.venue.location + '\n')
-            console.log(moment(concert.datetime).format('L') + '\n')
+            console.log("Venue: " + concert.venue.name + '\n')
+            console.log("Location: " + concert.venue.location + '\n')
+            console.log(moment("Date: " + concert.datetime).format('L') + '\n')
             console.log('--------------\n')            
         });
     })
