@@ -19,22 +19,21 @@ let concertThis = (artist) => {
     
     var queryUrl = "https://rest.bandsintown.com/artists/" + artist + "/events?app_id=codingbootcamp"
     
-    axios.get(queryUrl).then( 
-        function(response) {
-            
-            console.log('--------------\n')
-            console.log('Here are your choices for ' + input + "'s upcoming events:")
+axios.get(queryUrl).then( 
+    function(response) {
+        
+        console.log('--------------\n')
+        console.log('Here are your choices for ' + input + "'s upcoming events:")
 
-            // only showing 5 concerts at a time so your command line isnt flooded
-            response.data.slice(-5).forEach(concert => {
-                console.log(concert.venue.name + '\n')
-                console.log(concert.venue.location + '\n')
-                console.log(moment(concert.datetime).format('L') + '\n')
-                console.log('--------------\n')            
-            });
-
-        })
-    }
+        // only showing 5 concerts at a time so your command line isnt flooded
+        response.data.slice(-5).forEach(concert => {
+            console.log(concert.venue.name + '\n')
+            console.log(concert.venue.location + '\n')
+            console.log(moment(concert.datetime).format('L') + '\n')
+            console.log('--------------\n')            
+        });
+    })
+}
     
     
     
