@@ -1,15 +1,15 @@
-// dependecies and glolbal variables
+// dependecies and global variables
 require("dotenv").config();
-var fs = require("fs");
-var keys = require("./keys.js");
-var axios = require("axios");
-var moment = require("moment");
-// var omdb = new omdb(keys.omdb);
-var spotify_api = require("node-spotify-api");
-var command = process.argv[2];
-var input = process.argv.slice(3).join(" ");
+const fs = require("fs");
+const keys = require("./keys");
+const axios = require("axios");
+const moment = require("moment");
+// const omdb = new omdb(keys.omdb);
+const Spotify = require("node-spotify-api");
 
-// var spotify = new Spotify(keys.spotify);
+let command = process.argv[2];
+let input = process.argv.slice(3).join(" ");
+
 
 
 
@@ -34,6 +34,22 @@ axios.get(queryUrl).then(
         });
     })
 }
+
+
+
+// Spotify Node API --------------
+let spotifyThis = (song) => {
+
+    let spotify = new Spotify(keys.spotify);
+
+    spotify.search({ type: 'track', query: song }, function(err, data) {
+        if (err) {
+            return console.log('Error occured' + err)
+        }
+        console.log(data.tracks.items)
+    })
+
+}
     
     
     
@@ -41,6 +57,10 @@ axios.get(queryUrl).then(
     switch (command) {
         case "concert-this":
             concertThis(input);
+            break;
+
+        case 'spotify-this-song':
+            spotifyThis(input);
             break;
     }
     
