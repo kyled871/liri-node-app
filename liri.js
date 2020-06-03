@@ -4,7 +4,6 @@ const fs = require("fs");
 const keys = require("./keys");
 const axios = require("axios");
 const moment = require("moment");
-// const omdb = new omdb(keys.omdb);
 const Spotify = require("node-spotify-api");
 
 let command = process.argv[2];
@@ -22,7 +21,7 @@ let concertThis = (artist) => {
 axios.get(queryUrl).then( 
     function(response) {
         
-        console.log('--------------\n')
+        console.log('\n--------------\n')
         console.log('Here are your choices for ' + input + "'s upcoming events:")
 
         // only showing 5 concerts at a time so your command line isnt flooded
@@ -46,7 +45,18 @@ let spotifyThis = (song) => {
         if (err) {
             return console.log('Error occured' + err)
         }
-        console.log(data.tracks.items)
+        console.log("\nResults:\n")
+        console.log('--------------\n')
+
+        data.tracks.items.slice(-5).forEach(result => {
+
+            console.log("Artist: " + result.artists[0].name)
+            console.log("Song: " + result.name)
+            console.log("Preview: >>> " + result.preview_url + " <<<")
+            console.log("Album: " + result.album.name + '\n')
+            console.log('--------------\n')
+
+        })
     })
 
 }
