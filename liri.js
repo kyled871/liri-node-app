@@ -5,6 +5,8 @@ const keys = require("./keys");
 const axios = require("axios");
 const moment = require("moment");
 const Spotify = require("node-spotify-api");
+const spotify = new Spotify(keys.spotify);
+
 
 let command = process.argv[2];
 let input = process.argv.slice(3).join("+");
@@ -22,13 +24,14 @@ axios.get(queryUrl).then(
     function(response) {
         
         console.log('\n--------------\n')
-        console.log('Here are your choices for ' + input + "'s upcoming events:")
+        console.log('Here are your choices for ' + input + "'s upcoming events:\n")
 
         // only showing 5 concerts at a time so your command line isnt flooded
         response.data.slice(-5).forEach(concert => {
             console.log("Venue: " + concert.venue.name + '\n')
             console.log("Location: " + concert.venue.location + '\n')
-            console.log(moment("Date: " + concert.datetime).format('L') + '\n')
+            // console.log(moment().format((response.data[0].datetime, "MM/DD/YYYY")));
+            console.log("Date: " + moment(concert.datetime).format('L') + '\n')
             console.log('--------------\n')            
         });
     })
@@ -39,8 +42,6 @@ axios.get(queryUrl).then(
 // Spotify Node API --------------
 let spotifyThis = (song) => {
 
-    let spotify = new Spotify(keys.spotify);
-
     if (input) {
         spotify.search({ type: 'track', query: song }, function(err, data) {
             if (err) {
@@ -49,7 +50,7 @@ let spotifyThis = (song) => {
             console.log("\nResults:\n")
             console.log('--------------\n')
     
-            data.tracks.items.slice(-5).forEach(result => {
+            data.tracks.items.slice(0, 5).forEach(result => {
     
                 console.log("Artist: " + result.artists[0].name)
                 console.log("Song: " + result.name)
@@ -91,6 +92,7 @@ let movieThis = (movie) => {
     let empty = "http://www.omdbapi.com/?t=mr+nobody&y=2009&plot=short&apikey=trilogy"
 
     if (input) {
+
         axios.get(queryUrl).then(
             function(response) {
                 
@@ -143,6 +145,7 @@ let movieThis = (movie) => {
         case 'movie-this':
             movieThis(input);
             break;
+
             
     }
     
