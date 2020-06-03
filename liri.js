@@ -7,7 +7,7 @@ const moment = require("moment");
 const Spotify = require("node-spotify-api");
 
 let command = process.argv[2];
-let input = process.argv.slice(3).join(" ");
+let input = process.argv.slice(3).join("+");
 
 
 
@@ -66,22 +66,44 @@ let spotifyThis = (song) => {
 let movieThis = (movie) => {
     let apiKey = (keys.omdb)
     let queryUrl = "http://www.omdbapi.com/?t=" + movie + "&y=&plot=short&apikey=trilogy"
+    let empty = "http://www.omdbapi.com/?t=mr+nobody&y=2009&plot=short&apikey=trilogy"
 
-    axios.get(queryUrl).then( 
-        function(response) {
-            
-            console.log("\nTitle: " + response.data.Title)
-            console.log("Year: " + response.data.Year)
-            console.log("IMDB: " + response.data.Ratings[0].Value)
-            console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value)
-            console.log("Country: " + response.data.Country)
-            console.log("Language: " + response.data.Language)
-            console.log("Plot: " + response.data.Plot)
-            console.log("Actors: " + response.data.Actors + '\n')
+    if (input) {
+        axios.get(queryUrl).then(
+            function(response) {
+                
+                console.log("\nTitle: " + response.data.Title)
+                console.log("Year: " + response.data.Year)
+                console.log("IMDB: " + response.data.Ratings[0].Value)
+                console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value)
+                console.log("Country: " + response.data.Country)
+                console.log("Language: " + response.data.Language)
+                console.log("Plot: " + response.data.Plot)
+                console.log("Actors: " + response.data.Actors + '\n')
+                console.log('--------------\n')
 
+    
+            }
+        )
 
-        }
-    )
+    } else if (!input) {
+        axios.get(empty).then( 
+            function(response) {
+                console.log("\nCan't think of anything? Try this movie: ")
+                console.log("\nTitle: " + response.data.Title)
+                console.log("Year: " + response.data.Year)
+                console.log("IMDB: " + response.data.Ratings[0].Value)
+                console.log("Rotten Tomatoes: " + response.data.Ratings[1].Value)
+                console.log("Country: " + response.data.Country)
+                console.log("Language: " + response.data.Language)
+                console.log("Plot: " + response.data.Plot)
+                console.log("Actors: " + response.data.Actors + '\n')
+                console.log("It's on Netflix!")
+                console.log('--------------\n')
+                
+            }
+        )
+    }
 }
     
     
