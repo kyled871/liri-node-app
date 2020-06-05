@@ -27,10 +27,9 @@ axios.get(queryUrl).then(
         console.log('Here are your choices for ' + input + "'s upcoming events:\n")
 
         // only showing 5 concerts at a time so your command line isnt flooded
-        response.data.slice(-5).forEach(concert => {
+        response.data.slice(0, 5).forEach(concert => {
             console.log("Venue: " + concert.venue.name + '\n')
             console.log("Location: " + concert.venue.location + '\n')
-            // console.log(moment().format((response.data[0].datetime, "MM/DD/YYYY")));
             console.log("Date: " + moment(concert.datetime).format('L') + '\n')
             console.log('--------------\n')            
         });
@@ -129,6 +128,25 @@ let movieThis = (movie) => {
         )
     }
 }
+
+
+let doWhatItSays = () => {
+    fs.readFile("random.txt", "utf8", function(err, data) {
+
+        if (err) {
+            console.log(err)
+        }
+
+        let dataArray = data.split(",")
+        console.log(dataArray)
+
+        if (input.replace(/\+/g,' ') === dataArray[1]) {
+            spotifyThis(input)
+            
+        }
+
+    })
+}
     
     
     
@@ -146,6 +164,10 @@ let movieThis = (movie) => {
             movieThis(input);
             break;
 
-            
+        case 'do-what-it-says':
+            doWhatItSays();
+            break;
+        
+        default:
+            break
     }
-    
