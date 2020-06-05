@@ -24,7 +24,7 @@ axios.get(queryUrl).then(
     function(response) {
         
         console.log('\n--------------\n')
-        console.log('Here are your choices for ' + input + "'s upcoming events:\n")
+        console.log('Here are your choices for ' + input.replace(/\+/g,' ') + "'s upcoming events:\n")
 
         // only showing 5 concerts at a time so your command line isnt flooded
         response.data.slice(0, 5).forEach(concert => {
@@ -138,12 +138,25 @@ let doWhatItSays = () => {
         }
 
         let dataArray = data.split(",")
-        console.log(dataArray)
 
+        // I Want It That Way command finds this song
         if (input.replace(/\+/g,' ') === dataArray[1]) {
             spotifyThis(input)
-            
+
+        // For Whom The Bell Tolls command finds Metallica concerts
+        } else if (input.replace(/\+/g,' ') === dataArray[2]) {
+            concertThis("Metallic")
+
+        // Drop Dem Bullets command finds the movie "The Matrix"
+        } else if (input.replace(/\+/g,' ') === dataArray[3]) {
+            movieThis("The+Matrix")
+
+        } else {
+            console.log("I ain't gonna do it...")
+
         }
+
+        
 
     })
 }
